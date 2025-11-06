@@ -1,0 +1,173 @@
+Title: Graph Traversal
+You are designing a navigation system for a campus with multiple buildings. The system
+should explore possible paths (routes) using BFS or DFS.
+Create a graph using an adjacency matrix and implement Breadth-First Search and
+Depth-First Search to explore the building connectivity.
+Software Used: ‘C’ programming tool (DEV C++)
+Theory:
+What is a Graph?
+A Graph is a non-linear data structure consisting of vertices and edges. The vertices are
+sometimes also referred to as nodes and the edges are lines or arcs that connect any two
+nodes in the graph. More formally a Graph is composed of a set of vertices( V ) and a set of
+edges( E ). The graph is denoted by G (E, V).
+A graph is a data structure consisting of:
+ A set of vertices (nodes) – in this case, buildings.
+ A set of edges (connections) – representing direct paths between buildings
+Graphs can be:
+a. Undirected (bidirectional paths)
+b. Directed (one-way paths)
+
+They can be represented in two common ways:
+1. Adjacency Matrix – 2D array of size V x V
+2. Adjacency List – array of linked lists
+
+Real Time Exmple: Campus as a Graph
+ Each building on the campus is a node.
+ A path (like a road or hallway) between two buildings is an edge.
+ The goal is to explore connectivity (reachable buildings) using graph traversal algorithms.
+
+
+
+Graph Traversal
+1. Breadth-First Search (BFS)
+ Explores the graph level by level.
+ Uses a queue.
+ Best for finding the shortest path in unweighted graphs.
+
+Steps:
+1. Start from a source node.
+2. Visit all neighbors.
+3. Then visit their neighbors.
+4. Continue until all reachable nodes are visited.
+2. Depth-First Search (DFS)
+
+ Explores as deep as possible before backtracking.
+ Uses recursion or a stack.
+
+Steps:
+1. Start at a source node.
+2. Visit one neighbor, then that neighbor’s neighbor, and so on.
+3. Backtrack when no more neighbors to visit.
+
+Advantages of Graph :
+1. By using graphs we can easily find the shortest path, neighbors of the nodes, and many more.
+2. Graphs are used to implement algorithms like DFS and BFS.
+3. It is used to find minimum spanning tree which has many practical applications.
+4. It helps in organizing data.
+5. Because of its non-linear structure, helps in understanding complex problems and their
+visualization
+Disadvantages of Graph:
+1. Graphs use lots of pointers which can be complex to handle.
+2. It can have large memory complexity.
+
+
+
+3. If the graph is represented with an adjacency matrix then it does not allow parallel edges and
+multiplication of the graph is also difficult.
+Algorithm:
+1. BFS (Breadth-First Search)
+BFS(graph, start):
+Create a visited[ ] array and initialize to false
+Create a queue and enqueue start node
+Mark start as visited
+While queue is not empty:
+Dequeue node and process it
+For all neighbors of the node:
+If not visited:
+Mark visited and enqueue
+2. DFS (Depth-First Search)
+DFS(graph, node, visited[]):
+Mark node as visited
+Process the node
+For all neighbors of node:
+If not visited:
+Call DFS recursively
+Conclusion:
+
+
+Program:
+#include <stdio.h>
+#define MAX 10
+int graph[MAX][MAX];
+int visited[MAX];
+int queue[MAX];
+int front = -1, rear = -1;
+// Function to add element to queue
+void enqueue(int v) {
+if (rear == MAX - 1)
+return;
+if (front == -1)
+front = 0;
+queue[++rear] = v;
+}
+// Function to remove element from queue
+int dequeue() {
+if (front == -1 || front > rear)
+return -1;
+return queue[front++];
+}
+// BFS Traversal
+void BFS(int start, int n) {
+int i, v;
+for (i = 0; i < n; i++)
+visited[i] = 0;
+enqueue(start);
+visited[start] = 1;
+printf("\nBFS Traversal: ");
+while ((v = dequeue()) != -1) {
+printf("%d ", v);
+for (i = 0; i < n; i++) {
+if (graph[v][i] == 1 && !visited[i]) {
+
+
+
+enqueue(i);
+visited[i] = 1;
+}
+}
+}
+}
+// DFS Traversal (recursive)
+void DFS(int v, int n) {
+int i;
+printf("%d ", v);
+visited[v] = 1;
+for (i = 0; i < n; i++) {
+if (graph[v][i] == 1 && !visited[i])
+DFS(i, n);
+}
+}
+int main() {
+int n, i, j, start;
+printf("Enter number of buildings (nodes): ");
+scanf("%d", &n);
+printf("Enter adjacency matrix (%d x %d):\n", n, n);
+for (i = 0; i < n; i++)
+for (j = 0; j < n; j++)
+scanf("%d", &graph[i][j]);
+printf("Enter starting building (0 to %d): ", n - 1);
+scanf("%d", &start);
+// BFS
+BFS(start, n);
+// DFS
+for (i = 0; i < n; i++)
+visited[i] = 0;
+printf("\nDFS Traversal: ");
+DFS(start, n);
+
+
+printf("\n");
+return 0;
+}
+
+Output:
+
+Enter number of buildings (nodes): 4
+Enter adjacency matrix (4 x 4):
+0 1 1 0
+1 0 0 1
+1 0 0 1
+0 1 1 0
+Enter starting building (0 to 3): 0
+BFS Traversal: 0 1 2 3
+DFS Traversal: 0 1 3 2
