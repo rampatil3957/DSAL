@@ -1,0 +1,114 @@
+Title: Write a program to count the number of: - Leaf nodes - Internal nodes - Nodes with only
+one child in a given binary tree.
+
+Software Used: ‘C’ programming tool (DEV C++)
+Theory:
+A Binary Tree is a hierarchical data structure in which each node has at most two children —
+a left child and a right child.
+Each node can be classified as:
+Leaf Node: A node having no children.
+Internal Node: A node having both left and right children.
+Node with One Child: A node having exactly one child (either left or right).
+Representation of Binary Tree:
+
+Advantages of Binary Tree:
+1. Provides efficient searching, insertion, and deletion (especially in BSTs).
+2. Used for hierarchical data representation (e.g., file system).
+3. Enables fast traversal using Inorder, Preorder, and Postorder.
+4. Supports recursive algorithms naturally.
+
+
+
+Disadvantages of Binary Tree:
+1. Unbalanced trees may degrade performance to O(n).
+2. Memory overhead due to pointer storage.
+3. Complex implementation compared to arrays or linked lists.
+4. Balancing requires extra operations (as in AVL or Red-Black Trees).
+Applications of Binary Tree:
+1. Binary Search Tree (BST) for fast searching.
+2. Expression Tree for arithmetic expressions.
+3. Decision Trees in AI and ML.
+4. Heap Trees in priority queues.
+5. Huffman Coding Tree in data compression.
+
+Algorithm:
+Step 1: Start.
+Step 2: Create a structure node with data, left, and right pointers.
+Step 3: Write a function insert() to create a Binary Search Tree.
+Step 4: In countNodes() function:
+If node is NULL, return.
+If both left and right are NULL, increment leaf.
+If both are not NULL, increment internal.
+Else, increment oneChild.
+Step 5: Recursively call countNodes() for left and right subtrees.
+Step 6: Display counts.
+Step 7: Exit.
+Conclusion:
+
+
+[[[[[[[[[[[[Program:]]]]]]]]]]]
+
+#include <stdio.h>
+#include <stdlib.h>
+struct node {
+int data;
+struct node *left, *right;
+};
+// Function to create new node
+struct node* createNode(int value) {
+struct node* newNode = (struct node*)malloc(sizeof(struct node));
+newNode->data = value;
+newNode->left = newNode->right = NULL;
+return newNode;
+}
+// Function to insert node (BST style for simplicity)
+struct node* insert(struct node* root, int value) {
+if (root == NULL)
+return createNode(value);
+if (value < root->data)
+root->left = insert(root->left, value);
+else
+root->right = insert(root->right, value);
+return root;
+}
+// Function to count nodes
+void countNodes(struct node* root, int *leaf, int *internal, int *oneChild) {
+if (root == NULL)
+return;
+if (root->left == NULL && root->right == NULL)
+(*leaf)++;
+else if (root->left != NULL && root->right != NULL)
+(*internal)++;
+
+
+
+else
+(*oneChild)++;
+countNodes(root->left, leaf, internal, oneChild);
+countNodes(root->right, leaf, internal, oneChild);
+}
+int main() {
+struct node* root = NULL;
+int n, val;
+int leaf = 0, internal = 0, oneChild = 0;
+printf("Enter number of nodes: ");
+scanf("%d", &n);
+printf("Enter %d node values:\n", n);
+for (int i = 0; i < n; i++) {
+scanf("%d", &val);
+root = insert(root, val);
+}
+countNodes(root, &leaf, &internal, &oneChild);
+printf("\nLeaf Nodes = %d", leaf);
+printf("\nInternal Nodes = %d", internal);
+printf("\nNodes with One Child = %d\n", oneChild);
+return 0;
+}
+
+Output:
+Enter number of nodes: 4
+Enter 4 node values:
+10 30 50 40
+Leaf Nodes = 1
+Internal Nodes = 0
+Nodes with One Child = 3
