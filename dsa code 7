@@ -1,0 +1,62 @@
+Title: Decimal to Binary
+Write a program to convert a Decimal number to a binary number using a stack.
+Software Used: „C‟ programming tool (DEV C++)
+Theory:
+A stack is a linear data structure that follows the LIFO (Last In, First Out) principle — meaning the
+element that is inserted last is removed first.
+When converting a decimal number to binary, we repeatedly divide the number by 2 and store the
+remainders.
+Since the first remainder corresponds to the least significant bit (LSB), we must reverse the order of
+remainders to form the correct binary number.
+This reversal can be easily done using a stack, because when we push all remainders and then pop
+them, they come out in reverse order — giving the correct binary representation.
+Syntax:
+Push operation
+stack[++top] = value;
+Pop operation
+value = stack[top--];
+Algorithm:
+
+Step 1: Start
+Step 2: Declare an integer array stack[50] and set top = -1
+Step 3: Read the decimal number num
+Step 4: Repeat while num > 0
+a. Find remainder rem = num % 2
+b. Push remainder into stack → stack[++top] = rem
+c. Divide num = num / 2
+Step 5: Print “Binary number:”
+
+
+Step 6: While top >= 0
+a. Print stack[top]
+b. Decrement top
+Step 7: Exit
+Terminate the program
+
+Conclusion:
+
+
+
+Program:
+#include <stdio.h>
+int main() {
+int stack[50], top = -1;
+int num, rem;
+printf("Enter a decimal number: ");
+scanf("%d", &num);
+// Convert decimal to binary and push remainders
+while (num > 0) {
+rem = num % 2;
+stack[++top] = rem;
+num = num / 2;
+}
+printf("Binary number: ");
+// Pop and print elements from stack
+while (top >= 0) {
+printf("%d", stack[top--]);
+}
+return 0;
+}
+Output:
+Enter a decimal number: 25
+Binary number: 11001
