@@ -1,0 +1,115 @@
+Title: Searching Techniques You are building a contact manager app. A user wants to search for a
+contact either by scanning one by one or by using a fast lookup if the list is sorted. Write a program
+that locates a specific name using both sequential and binary search techniques.
+
+Software Used: ‘C’ programming tool (Dev c++)
+
+Theory:
+
+Time and Space Complexity of Linear Search Algorithm:
+Time Complexity:
+ Best Case: In the best case, the key might be present at the first index. So the best case
+complexity is O(1)
+ Worst Case: In the worst case, the key might be present at the last index i.e., opposite to
+the end from which the search has started in the list. So the worst-case complexity is O(N) where N
+is the size of the list.
+ Average Case: O(N)
+Auxiliary Space: O(1) as except for the variable to iterate through the list, no other variable is
+used.
+
+Applications of Linear Search Algorithm:
+ Unsorted Lists: When we have an unsorted array or list, linear search is most commonly
+used to find any element in the collection.
+ Small Data Sets: Linear Search is preferred over binary search when we have small data
+sets with
+ Searching Linked Lists: In linked list implementations, linear search is commonly used to
+find elements within the list. Each node is checked sequentially until the desired element is found.
+ Simple Implementation: Linear Search is much easier to understand and implement as
+compared to Binary Search or Ternary Search.
+
+
+
+Advantages of Linear Search Algorithm:
+ Linear search can be used irrespective of whether the array is sorted or not. It can be used
+on arrays of any data type.
+ Does not require any additional memory.
+ It is a well-suited algorithm for small datasets.
+Disadvantages of Linear Search Algorithm:
+ Linear search has a time complexity of O(N), which in turn makes it slow for large
+datasets.
+ Not suitable for large arrays.
+Algorithm:
+Algorithm for Sequential Search
+1. Start from the first element of the list.
+2. Compare each element with the target name.
+3. If a match is found → return its position.
+4. If end of list is reached → element not found.
+
+Algorithm: Binary Search
+1. Ensure the list is sorted.
+2. Set low = 0, high = n-1.
+3. Repeat until low <= high:
+o Find mid = (low + high)/2.
+o If arr[mid] == target → return position.
+o If arr[mid] > target → set high = mid - 1.
+o Else → set low = mid + 1.
+4. If not found → return failure.
+Conclusion:
+
+
+[[[[[[[[[[[[Program:]]]]]]]]]]]]
+
+
+
+
+#include <stdio.h>
+#include <string.h>
+// Sequential Search Function
+int sequentialSearch(char contacts[][20], int n, char target[]) {
+int i;
+for (i = 0; i < n; i++) {
+if (strcmp(contacts[i], target) == 0) {
+return i; // Found
+}
+}
+return -1; // Not found
+}
+// Binary Search Function (needs sorted array)
+int binarySearch(char contacts[][20], int n, char target[]) {
+int low = 0, high = n - 1, mid, cmp;
+while (low <= high) {
+mid = (low + high) / 2;
+cmp = strcmp(contacts[mid], target);
+if (cmp == 0)
+return mid; // Found
+else if (cmp > 0)
+high = mid - 1; // Search left
+else
+low = mid + 1; // Search right
+}
+return -1; // Not found
+}
+int main() {
+char contacts[5][20] = {"Amit", "Baby", "Chatur", "Danish", "Ira"};
+char name[20];
+int pos;
+printf("Enter name to search: ");
+scanf("%s", name);
+// Sequential Search
+pos = sequentialSearch(contacts, 5, name);
+if (pos != -1)
+printf("Sequential Search: %s found at position %d\n", name, pos + 1);
+else
+printf("Sequential Search: %s not found\n", name);
+// Binary Search
+pos = binarySearch(contacts, 5, name);
+if (pos != -1)
+printf("Binary Search: %s found at position %d\n", name, pos + 1);
+else
+printf("Binary Search: %s not found\n", name);
+return 0;
+}
+Output:
+Enter name to search: Ira
+Sequential Search: Ira found at position 5
+Binary Search: Ira found at position 5
