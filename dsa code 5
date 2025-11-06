@@ -1,0 +1,329 @@
+Title: Singly Linked List Operations
+You are building a text editor where lines of text are stored dynamically. You need to allow
+insertion and deletion of lines at any position, and display text both normally and in reverse.
+Use a singly linked list to implement: display, insert (front/end/middle), delete (front/end/middle),
+display in reverse, and reverse the list.
+Software Used: ‘C’ programming tool (Dev C++)
+Theory:
+A linked list is a linear data structure used to store elements of the same data type but not in
+contiguous memory locations. It is a collection of nodes where each node contains a data field and a
+next pointer indicating the address of the next node.
+
+Implementation of Singly Linked List in C
+A singly linked list is a type of linked list where only the address of the next node is stored in the
+current node along with the data field and the last node in the list contains NULL pointer. This
+makes it impossible to find the address of the particular node in the list without accessing the node
+previous to it. So we can only access the data sequentially in the node.
+Representation of Singly Linked List in C
+To represent a node of a singly linked list in C, we will use a structure that will have two data
+members data and next where:
+struct Node {
+int data;
+Node* next;
+};
+where,
+data: indicates the value stored in the node.
+next: is a pointer that will store the address of the next node in the sequence.
+Singly Linked List Basic Operations in C
+Following are some of the basic operations which are required to manipulate the nodes of a singly
+linked list:
+
+
+
+Operation Operation Type Description
+
+Insert
+
+At Head Appends a new node at the start of the singly linked list.
+
+At Given Position Adds a new node at a specific position in the singly linked
+
+list.
+
+At End Adds a new node to the end of the singly linked list.
+
+Delete
+
+From Head Removes the first node from the singly linked list.
+
+From Given
+Position
+
+Deletes a node present at a specific position in the singly
+
+linked list.
+
+From End Eliminates the last node of the singly linked list.
+
+Print -
+
+Iterates through the singly liked list and prints the value of
+
+data present in each node.
+
+Applications of linked list:
+1. Implementation of stacks and queues
+2. Implementation of graphs: Adjacency list representation of graphs is the most popular which uses a
+linked list to store adjacent vertices.
+3. Dynamic memory allocation: We use a linked list of free blocks.
+4. Maintaining a directory of names
+5. Performing arithmetic operations on long integers
+6. Manipulation of polynomials by storing constants in the node of the linked list
+7. Representing sparse matrices
+8. Image viewer - Previous and next images are linked and can be accessed by the next and previous
+buttons.
+
+
+
+Algorithm:
+Insert (Front)
+1. Create a new node with given text.
+2. Point newNode->next = head.
+3. Update head = newNode.
+Insert (End)
+1. Create a new node with next = NULL.
+2. If list empty → head = newNode.
+3. Else traverse till last node and link it.
+Insert (Position)
+1. Traverse list until (pos-1)th node.
+2. Insert new node after it.
+Delete (Front)
+1. If list empty → return.
+2. Move head = head->next.
+3. Free old first node.
+Delete (End)
+1. Traverse till second last node.
+2. Free last node.
+3. Update secondLast->next = NULL.
+Delete (Position)
+1. Traverse till (pos-1)th node.
+2. Bypass (pos)th node.
+3. Free deleted node.
+Display
+ Traverse from head → print each line.
+Display Reverse
+ Use recursion: visit next node first, then print.
+
+Akhil Bharatiya Maratha Shikshan Parishad's
+Anantrao Pawar College of Engineering & Research
+
+Data Structures & Algorithms lab
+
+Reverse List
+ Iteratively reverse pointers (prev, curr, next).
+
+Conclusion:
+
+
+
+Program:
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+struct Node {
+char line[100];
+struct Node* next;
+};
+struct Node* head = NULL;
+// Create new node
+struct Node* createNode(char* text) {
+struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+strcpy(newNode->line, text);
+newNode->next = NULL;
+return newNode;
+}
+// Insert at front
+void insertFront(char* text) {
+struct Node* newNode = createNode(text);
+newNode->next = head;
+head = newNode;
+}
+// Insert at end
+void insertEnd(char* text) {
+struct Node* newNode = createNode(text);
+if (head == NULL) {
+head = newNode;
+return;
+}
+struct Node* temp = head;
+while (temp->next != NULL) temp = temp->next;
+temp->next = newNode;
+}
+
+
+// Insert at given position
+void insertAtPos(char* text, int pos) {
+if (pos == 1) {
+insertFront(text);
+return;
+}
+struct Node* newNode = createNode(text);
+struct Node* temp = head;
+for (int i = 1; i < pos - 1 && temp != NULL; i++) {
+temp = temp->next;
+}
+if (temp == NULL) {
+printf("Invalid position!\n");
+return;
+}
+newNode->next = temp->next;
+temp->next = newNode;
+}
+// Delete at front
+void deleteFront() {
+if (head == NULL) {
+printf("List empty!\n");
+return;
+}
+struct Node* temp = head;
+head = head->next;
+free(temp);
+}
+// Delete at end
+void deleteEnd() {
+if (head == NULL) {
+printf("List empty!\n");
+return;
+}
+if (head->next == NULL) {
+free(head);
+head = NULL;
+return;
+}
+struct Node* temp = head;
+while (temp->next->next != NULL) temp = temp->next;
+free(temp->next);
+temp->next = NULL;
+}
+// Delete at position
+void deleteAtPos(int pos) {
+if (head == NULL) {
+printf("List empty!\n");
+return;
+}
+if (pos == 1) {
+deleteFront();
+return;
+}
+struct Node* temp = head;
+for (int i = 1; i < pos - 1 && temp != NULL; i++) {
+temp = temp->next;
+}
+if (temp == NULL || temp->next == NULL) {
+printf("Invalid position!\n");
+return;
+}
+struct Node* delNode = temp->next;
+temp->next = delNode->next;
+free(delNode);
+}
+// Display list
+void display() {
+struct Node* temp = head;
+if (temp == NULL) {
+printf("Text is empty!\n");
+return;
+}
+printf("Text (normal order):\n");
+while (temp != NULL) {
+printf("%s\n", temp->line);
+temp = temp->next;
+}
+}
+
+
+
+// Display in reverse (recursion)
+void displayReverse(struct Node* node) {
+if (node == NULL) return;
+displayReverse(node->next);
+printf("%s\n", node->line);
+}
+// Reverse the list
+void reverseList() {
+struct Node *prev = NULL, *curr = head, *next = NULL;
+while (curr != NULL) {
+next = curr->next;
+curr->next = prev;
+prev = curr;
+curr = next;
+}
+head = prev;
+printf("List reversed!\n");
+}
+
+// Main menu
+int main() {
+int choice, pos;
+char text[100];
+while (1) {
+printf("\n--- Text Editor (Singly Linked List) ---\n");
+printf("1. Insert Front\n2. Insert End\n3. Insert at Position\n");
+printf("4. Delete Front\n5. Delete End\n6. Delete at Position\n");
+printf("7. Display\n8. Display Reverse\n9. Reverse List\n10. Exit\n");
+printf("Enter choice: ");
+scanf("%d", &choice);
+getchar(); // consume newline
+switch (choice) {
+case 1:
+printf("Enter line: ");
+fgets(text, sizeof(text), stdin);
+text[strcspn(text, "\n")] = 0;
+insertFront(text);
+break;
+
+
+
+case 2:
+printf("Enter line: ");
+fgets(text, sizeof(text), stdin);
+text[strcspn(text, "\n")] = 0;
+insertEnd(text);
+break;
+case 3:
+printf("Enter position: ");
+scanf("%d", &pos);
+getchar();
+printf("Enter line: ");
+fgets(text, sizeof(text), stdin);
+text[strcspn(text, "\n")] = 0;
+insertAtPos(text, pos);
+break;
+case 4: deleteFront(); break;
+case 5: deleteEnd(); break;
+case 6:
+printf("Enter position: ");
+scanf("%d", &pos);
+deleteAtPos(pos);
+break;
+case 7: display(); break;
+case 8:
+printf("Text (reverse order):\n");
+displayReverse(head);
+break;
+case 9: reverseList(); break;
+case 10: return 0;
+default: printf("Invalid choice!\n");
+}
+}
+}
+
+
+Output:
+1. Insert Front
+2. Insert End
+3. Insert at Position
+4. Delete Front
+5. Delete End
+6. Delete at Position
+7. Display
+8. Display Reverse
+9. Reverse List
+10. Exit
+Enter choice: 1
+Enter line: Hello World
+Enter choice: 2
+Enter line: This is a test
+Enter choice: 7
+Text (normal order):
+Hello World
