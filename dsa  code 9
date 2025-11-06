@@ -1,0 +1,134 @@
+Title: Height and Depth in BST
+Develop a program that constructs a Binary Search Tree and computes the height of
+the tree and the depth of a given node.
+Software Used: ‘C’ programming tool (DEV C++)
+Theory:
+A Binary Search Tree (BST) is a special type of binary tree in which:
+Each node has at most two children.The left child contains values less than the parent node.
+The right child contains values greater than the parent node.
+Height of a Tree:
+The height of a binary tree is the number of edges on the longest path from the root node to a leaf
+node.
+For an empty tree, height = –1 (or sometimes defined as 0).
+It can be found recursively by taking the maximum height of left and right subtrees and adding 1.
+Depth of a Node:
+The depth of a node is the number of edges from the root node to that specific node.
+It can be found iteratively by traversing the tree and counting levels until the key is found.
+
+
+Input: k = 10,
+Output: Depth of node 10 = 1
+Height of node 10 = 2
+Explanation: The number of edges in the path from root node to the node 10 is 1.
+The number of edges in the longest path connecting the node 10 to any leaf node is 2.
+
+C Structure of Node:
+struct Node { int data;
+struct Node* left;
+struct Node* right; };
+Algorithm:
+Step 1: Start
+Step 2: Create a structure node with data, left, and right pointers.
+Step 3: Write a function createNode(value) to create a new node with given data.
+Step 4: Write an insert() function to insert nodes into BST using the following rule:
+• If the tree is empty, create a new node.
+• If value < root->data, insert into the left subtree.
+• If value > root->data, insert into the right subtree.
+Step 5: Write a function height(root)
+• If root == NULL, return -1.
+• Recursively find height of left and right subtrees.
+• Return the greater of the two plus 1.
+Step 6: Write a function depth(root, key)
+• Initialize d = 0.
+• Traverse the tree from root and compare key with root->data.
+• If key matches, return d.
+• Else move left or right depending on comparison, incrementing d.
+• If key not found, return -1.
+Step 7: In main() function:
+
+
+
+• Accept number of nodes and their values.
+• Insert nodes in BST using insert().
+• Display height of the tree using height().
+• Accept a node value and display its depth using depth().
+Step 8: Exit
+Conclusion:
+
+
+
+Program:
+#include <stdio.h>
+#include <stdlib.h>
+struct node {
+int data;
+struct node *left, *right;
+};
+// Function to create a new node
+struct node* createNode(int value) {
+struct node* newNode = (struct node*)malloc(sizeof(struct node));
+newNode->data = value;
+newNode->left = newNode->right = NULL;
+return newNode;
+}
+// Insert a node into BST
+struct node* insert(struct node* root, int value) {
+if (root == NULL)
+return createNode(value);
+if (value < root->data)
+root->left = insert(root->left, value);
+else if (value > root->data)
+root->right = insert(root->right, value);
+return root;
+}
+// Function to find height of BST
+int height(struct node* root) {
+if (root == NULL)
+return -1;
+int left = height(root->left);
+int right = height(root->right);
+return (left > right ? left : right) + 1;
+}
+// Function to find depth of a given node
+int depth(struct node* root, int key) {
+int d = 0;
+while (root != NULL) {
+if (key == root->data)
+
+return d;
+else if (key < root->data)
+root = root->left;
+else
+root = root->right;
+d++;
+}
+return -1; // Node not found
+}
+int main() {
+struct node* root = NULL;
+int n, val, key;
+printf("Enter number of nodes: ");
+scanf("%d", &n);
+printf("Enter %d values:\n", n);
+for (int i = 0; i < n; i++) {
+scanf("%d", &val);
+root = insert(root, val);
+}
+printf("\nHeight of the tree = %d\n", height(root));
+printf("Enter node value to find depth: ");
+scanf("%d", &key);
+int d = depth(root, key);
+if (d != -1)
+printf("Depth of node %d = %d\n", key, d);
+else
+printf("Node not found.\n");
+return 0;
+}
+
+
+Output:
+Enter number of nodes: 5
+Enter 5 values:
+10 5 15 2 7
+Height of the tree = 2
+Enter node value to find depth: 7
