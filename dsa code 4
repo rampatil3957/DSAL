@@ -1,0 +1,171 @@
+Title: Stack or Queue using Array (Static Implementation)
+Simulate a parcel handling system at a post office where packages are stacked (LIFO) or queued
+(FIFO). Use an array to implement a stack (push, pop, display)
+Software Used: ‘C’ programming tool (Dev C++)
+Theory:
+Stack is the linear data structure that follows the Last in, First Out(LIFO) principle of data insertion
+and deletion.
+It means that the element that is inserted last will be the first one to be removed and the element that
+is inserted first will be removed at last.
+Implementation of a Stack in C
+In C, we can implement a stack using an array or a linked list
+
+Representation of Stack in C
+The stack can be represented as a structure that contains a fixed-size array in C which stores the data
+of the stack and an index pointer which is used to track the top element of the stack.
+
+struct stack {
+type arr[MAX_SIZE];
+int top;
+}
+Basic Stack Operations in C
+Following are some basic operations in the stack that make it easy to manipulate the stack data
+structure:
+
+
+Operation Description
+Push Inserts an element at the top of the stack.
+Pop Removes the top most element of the stack.
+Peek Returns the topmost element of the stack.
+IsFull Returns true is the stack is full otherwise returns false.
+IsEmpty Returns true is the stack is empty otherwise returns false.
+
+Applications of Stack in C
+Stack is widely used for Following are some common applications of Stack:
+1. Stacks are commonly used to evaluate postfix expressions. It is also used in infix to postfix
+conversion.
+2. It is used in recursion where a different stack is allocated for every recursive call.
+3. It is used in browsers to provide the backward and forward functionality.
+4. It is also used in text editor, image editors to provide the undo and redo functionality.
+5. It is used in various algorithms in computer science.
+Algorithm:
+Step 1: Initialization
+1. Define MAX = 5.
+2. Create array stack[MAX].
+3. Set top = -1 (empty stack).
+Step 2: Main Menu Loop
+
+1. Repeat until user exits:
+o Display menu:
+1 → Push (Add Parcel)
+2 → Pop (Remove Parcel)
+3 → Display Parcels
+
+
+
+o
+o 4 → Exit
+o Read user’s choice.
+o Perform operation based on choice:
+ If choice = 1 → call PUSH(parcel).
+ If choice = 2 → call POP().
+ If choice = 3 → call DISPLAY().
+ If choice = 4 → terminate program.
+ Else → show "Invalid choice".
+
+Step 3: PUSH Operation (Add Parcel)
+1. If top == MAX-1 → print “Stack Overflow” (stack is full).
+2. Else:
+o Increment top (top = top + 1).
+o Insert new parcel: stack[top] = parcel.
+o Print message: parcel added.
+
+Step 4: POP Operation (Remove Parcel)
+1. If top == -1 → print “Stack Underflow” (stack is empty).
+2. Else:
+
+o Print stack[top] removed.
+o Decrement top = top - 1.
+
+Step 5: DISPLAY Operation
+1. If top == -1 → print “Stack is empty”.
+2. Else:
+o Print all parcels from stack[top] to stack[0] (top to bottom).
+
+Conclusion:
+
+
+
+[[[[[[[[[[Program:]]]]]]]]
+
+  
+
+#include <stdio.h>
+#define MAX 5 // Maximum parcels
+int stack[MAX];
+int top = -1;
+// Push operation
+void push(int parcel) {
+if (top == MAX - 1) {
+printf("Stack Overflow! No more parcels can be added.\n");
+} else {
+stack[++top] = parcel;
+printf("Parcel %d added to stack.\n", parcel);
+}
+}
+// Pop operation
+void pop() {
+if (top == -1) {
+printf("Stack Underflow! No parcels to remove.\n");
+} else {
+printf("Parcel %d removed from stack.\n", stack[top--]);
+}
+}
+// Display operation
+void display() {
+if (top == -1) {
+printf("Stack is empty!\n");
+} else {
+printf("Parcels in stack: ");
+for (int i = top; i >= 0; i--) {
+printf("%d ", stack[i]);
+}
+printf("\n");
+}
+}
+int main() {
+int choice, parcel;
+while (1) {
+printf("\n--- Parcel Handling System (Stack) ---\n");
+printf("1. Add Parcel (Push)\n");
+printf("2. Remove Parcel (Pop)\n");
+printf("3. Display Parcels\n");
+printf("4. Exit\n");
+printf("Enter choice: ");
+scanf("%d", &choice);
+switch (choice) {
+case 1:
+printf("Enter parcel ID (number): ");
+scanf("%d", &parcel);
+push(parcel);
+break;
+case 2:
+pop();
+break;
+case 3:
+display();
+break;
+case 4:
+return 0;
+default:
+printf("Invalid choice!\n");
+}
+}
+}
+Output:
+--- Parcel Handling System (Stack: LIFO) ---
+1. Add Parcel (Push)
+2. Remove Parcel (Pop)
+3. Display Parcels
+4. Exit
+Enter choice: 1
+Enter parcel ID (number): 112
+Parcel 101 added to stack.
+Enter choice: 1
+Enter parcel ID (number): 114
+Parcel 102 added to stack.
+Enter choice: 3
+Parcels in stack (top to bottom): 114 112
+Enter choice: 2
+Parcel 114 removed from stack.
+
