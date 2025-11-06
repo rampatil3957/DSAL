@@ -1,0 +1,196 @@
+Title: Binary Search Tree Operations
+An online directory system uses a BST to keep names in a sorted manner and support fast
+searching. Create a binary search tree and implement recursive traversals (inorder, preorder,
+postorder) and search for a specific name in the directory.
+Software Used: ‘C’ programming tool (Dev C++)
+Theory:
+A binary Search Tree is a binary tree where the value of any node is greater than the left subtree and
+less than the right subtree.
+Properties of Binary Search Tree
+Following are some main properties of the binary search tree in C:
+ All nodes of the left subtree are less than the root node and nodes of the right subtree are
+greater than the root node.
+ The In-order traversal of binary search trees gives the values in ascending order.
+ All the subtrees of BST hold the same properties.
+Example:
+
+
+
+struct BinaryTreeNode {
+int key;
+struct nodeBinaryTreeNode *left, *right;
+};
+here,
+ key: It will be the data stored.
+ left: Pointer to the left child.
+ right: Pointer to the right child
+
+Operations on BST C
+1. Search in BST
+2. Insertion in BST
+3. Deletion in BST
+
+Applications of BST:
+1. Self-Balancing Binary Search Tree is used to maintain sorted stream of data.
+2. Binary Search Tree is used to implement doubly ended priority queue.
+3. A BST can be used to sort a large dataset. By inserting the elements of the dataset into a BST and
+then performing an in-order traversal, the elements will be returned in sorted order.
+
+Conclusion:
+
+
+
+Pogram:
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+// Node structure
+struct Node {
+char name[50];
+struct Node* left;
+struct Node* right;
+};
+// Create new node
+struct Node* createNode(char* name) {
+struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+strcpy(newNode->name, name);
+newNode->left = newNode->right = NULL;
+return newNode;
+}
+// Insert into BST
+struct Node* insert(struct Node* root, char* name) {
+if (root == NULL) return createNode(name);
+if (strcmp(name, root->name) < 0)
+root->left = insert(root->left, name);
+else if (strcmp(name, root->name) > 0)
+root->right = insert(root->right, name);
+else
+printf("Duplicate name not allowed!\n");
+return root;
+}
+// Inorder traversal
+void inorder(struct Node* root) {
+if (root != NULL) {
+inorder(root->left);
+printf("%s ", root->name);
+inorder(root->right);
+}
+}
+
+
+
+// Preorder traversal
+void preorder(struct Node* root) {
+if (root != NULL) {
+printf("%s ", root->name);
+preorder(root->left);
+preorder(root->right);
+}
+}
+// Postorder traversal
+void postorder(struct Node* root) {
+if (root != NULL) {
+postorder(root->left);
+postorder(root->right);
+printf("%s ", root->name);
+}
+}
+// Search in BST
+struct Node* search(struct Node* root, char* key) {
+if (root == NULL || strcmp(root->name, key) == 0)
+return root;
+if (strcmp(key, root->name) < 0)
+return search(root->left, key);
+else
+return search(root->right, key);
+}
+// Main menu
+int main() {
+struct Node* root = NULL;
+int choice;
+char name[50];
+while (1) {
+printf("\n--- Online Directory System (BST) ---\n");
+printf("1. Insert Name\n");
+printf("2. Inorder Traversal\n");
+printf("3. Preorder Traversal\n");
+printf("4. Postorder Traversal\n");
+printf("5. Search Name\n");
+printf("6. Exit\n");
+printf("Enter choice: ");
+
+
+scanf("%d", &choice);
+getchar(); // consume newline
+switch (choice) {
+case 1:
+printf("Enter name: ");
+fgets(name, sizeof(name), stdin);
+name[strcspn(name, "\n")] = 0; // remove newline
+root = insert(root, name);
+break;
+case 2:
+printf("Inorder Traversal (Sorted): ");
+inorder(root);
+printf("\n");
+break;
+case 3:
+printf("Preorder Traversal: ");
+preorder(root);
+printf("\n");
+break;
+case 4:
+printf("Postorder Traversal: ");
+postorder(root);
+printf("\n");
+break;
+case 5:
+printf("Enter name to search: ");
+fgets(name, sizeof(name), stdin);
+name[strcspn(name, "\n")] = 0;
+if (search(root, name))
+printf("Name '%s' found in directory.\n", name);
+else
+printf("Name '%s' NOT found in directory.\n", name);
+break;
+case 6:
+return 0;
+default:
+printf("Invalid choice!\n");
+}
+}
+}
+
+
+
+Output:
+--- Online Directory System (BST) ---
+Enter name: Ashwini
+--- Online Directory System (BST) ---
+1. Insert Name
+2. Inorder Traversal
+3. Preorder Traversal
+4. Postorder Traversal
+5. Search Name
+6. Exit
+Enter choice: 1
+Enter name: Rajlakshmi
+
+--- Online Directory System (BST) ---
+1. Insert Name
+2. Inorder Traversal
+3. Preorder Traversal
+4. Postorder Traversal
+5. Search Name
+6. Exit
+Enter choice: 2
+Inorder Traversal (Sorted): Ashwini Rajlakshmi
+--- Online Directory System (BST) ---
+1. Insert Name
+2. Inorder Traversal
+3. Preorder Traversal
+4. Postorder Traversal
+5. Search Name
+6. Exit
+Enter choice:
+
