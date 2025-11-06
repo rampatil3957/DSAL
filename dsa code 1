@@ -1,0 +1,238 @@
+Title: Student Data Base System
+You are developing a student result management system. The database should support updating
+records, adding new entries, searching for specific students, and sorting based on performance.
+Using an array of structures, implement a student database with attributes: roll no, name, program,
+course, subject marks, total, and average. Support operations: dis- play, search, and sort. (Students
+can additionally perform modify, append.)
+Software Used: ‘C’ programming tool (DEV)
+Theory:
+Structure is the collection of variables of different types under a single name for better handling.
+For example: You want to store the information about person about his/her name, citizenship
+number and salary. You can create these information separately but, better approach will be
+collection of these information under single name because all these information are related to
+person.
+Definition and Syntax:
+struct structure_name
+{
+type1 Member1;
+type2 Member2;
+typeX Memberx;
+} ;
+
+Structure variabledeclaration
+When a structure is defined, it creates a user-defined type but, no storage is allocated. The
+variable can be declared as:
+Struct structure_name variable1,variable2;
+Accessing members of a structure
+There are two types of operators used for accessing members of a structure.
+1. Member operator(.)
+2. Structure pointer operator(->)
+Any member of a structure can be accessed as: structure_variable_name.member_name
+
+
+
+Array of Structures:
+Arrays are one of the most widely used data structures in programming languages. One
+downfall of using such a data type is that one must use homogeneous data types, an array can
+only hold multiple items of the same type. Structures overcome this problem by allowing the
+programmer to have an unlimited number of items of different data types! Objects contained
+within the structure are referred to as members.
+Syntax:
+struct structure_name
+{
+type1 Member1;
+type2 Member2;
+typeXMemberx;
+} listname[X];
+Here we can declare copy name as our instance name and disregard the name field. We can use
+list name[x] if we would we know that we will be immediately needing x copies of ourstructure.
+Algorithm:
+Step 1: Start
+Step 2: Define a structure Student with fields:
+roll (Roll No)
+name
+program
+course
+marks[5]
+total
+avg
+Step 3: Declare:
+An array db[100] of students.
+Integer n = 0 to store the number of students.
+Step 4: Display Menu repeatedly until the user chooses Exit:
+a. Add Student
+Read roll no, name, program, and course.
+Read 5 subject marks.
+Compute total = sum of marks.
+Compute average = total / 5.
+Store the record in db[n] and increment n.
+b. Display Students
+Print headings (Roll, Name, Program, Course, Total, Average).
+Loop through all records i = 0 to n-1 and print their details.
+
+
+c. Search Student
+Input roll number to search.
+Loop through all records:
+If db[i].roll matches, print student details.
+If no match found, display "Student Not Found".
+d. Sort Students (by performance)
+Use nested loops to compare total marks of each student.
+If db[i].total < db[j].total, swap records.
+Display "Students sorted by performance".
+e. Modify Student Record
+Input roll number to modify.
+Search for matching roll number.
+If found:
+Update name, program, course.
+Input new 5 subject marks.
+Recalculate total and average.
+Display "Record modified".
+If not found: display "Record not found".
+f. Exit
+Terminate the program.
+Step 5: Stop
+Conclusion:
+
+
+
+[[[[[[[   PROGRAM    ]]]]]
+
+
+  
+#include <stdio.h>
+#include <string.h>
+struct Student {
+int roll;
+char name[50];
+char program[20];
+char course[20];
+int marks[5];
+int total;
+float avg;
+};
+struct Student db[100];
+int n = 0; // number of students
+void addStudent() {
+int i;
+printf("\nEnter Roll No: ");
+scanf("%d", &db[n].roll);
+printf("Enter Name: ");
+scanf("%s", db[n].name);
+printf("Enter Program: ");
+scanf("%s", db[n].program);
+printf("Enter Course: ");
+scanf("%s", db[n].course);
+db[n].total = 0;
+printf("Enter 5 subject marks: ");
+for(i=0; i<5; i++) {
+scanf("%d", &db[n].marks[i]);
+db[n].total += db[n].marks[i];
+}
+db[n].avg = db[n].total / 5.0;
+n++;
+printf("Record added successfully!\n");
+}
+void displayStudents() {
+int i,j;
+printf("\n%-5s %-10s %-10s %-10s %-10s %-10s\n", "Roll", "Name", "Program", "Course",
+"Total", "Average");
+for(i=0; i<n; i++) {
+printf("%-5d %-10s %-10s %-10s %-10d %-10.2f\n",
+db[i].roll, db[i].name, db[i].program, db[i].course, db[i].total, db[i].avg);
+}
+}
+void searchStudent() {
+int roll, i, found=0;
+printf("\nEnter Roll No to search: ");
+scanf("%d", &roll);
+for(i=0; i<n; i++) {
+if(db[i].roll == roll) {
+printf("Record Found: %s (%d) Total: %d Avg: %.2f\n",
+db[i].name, db[i].roll, db[i].total, db[i].avg);
+found=1;
+break;
+}
+}
+if(!found) printf("Student Not Found!\n");
+}
+void sortStudents() {
+int i, j;
+struct Student temp;
+for(i=0; i<n-1; i++) {
+for(j=i+1; j<n; j++) {
+if(db[i].total < db[j].total) {
+temp = db[i];
+db[i] = db[j];
+db[j] = temp;
+}
+}
+}
+printf("Students sorted by performance (total marks).\n");
+}
+void modifyStudent() {
+int roll, i, found=0;
+printf("\nEnter Roll No to modify: ");
+scanf("%d", &roll);
+for(i=0; i<n; i++) {
+if(db[i].roll == roll) {
+printf("Enter new Name: ");
+scanf("%s", db[i].name);
+printf("Enter new Program: ");
+scanf("%s", db[i].program);
+printf("Enter new Course: ");
+scanf("%s", db[i].course);
+db[i].total = 0;
+printf("Enter 5 subject marks: ");
+for(int j=0;j<5;j++) {
+scanf("%d", &db[i].marks[j]);
+db[i].total += db[i].marks[j];
+}
+db[i].avg = db[i].total/5.0;
+printf("Record modified!\n");
+found=1;
+break;
+}
+}
+if(!found) printf("Record not found!\n");
+}
+int main() {
+int choice;
+while(1) {
+printf("\n--- Student Database Menu ---\n");
+printf("1. Add Student\n2. Display Students\n3. Search Student\n4. Sort Students\n5. Modify
+Student\n6. Exit\n");
+printf("Enter choice: ");
+scanf("%d", &choice);
+switch(choice) {
+case 1: addStudent(); break;
+case 2: displayStudents(); break;
+case 3: searchStudent(); break;
+case 4: sortStudents(); break;
+case 5: modifyStudent(); break;
+case 6: return 0;
+default: printf("Invalid choice!\n");
+}
+}
+}
+Output:
+--- Student Database Menu ---
+1. Add Student
+2. Display Students
+3. Search Student
+4. Sort Students
+5. Modify Student
+6. Exit
+Enter choice: 1
+Enter Roll No: 101
+Enter Name: Swati
+Enter Program: B.E
+Enter Course: E&TC
+Enter 5 subject marks: 80 90 85 70 95
+Record added successfully!
+
+Enter choice: 2
+Roll Name Program Course Total Average
+101 Swati B.E E&TC 420 84.00
+
+
